@@ -46,3 +46,64 @@ telegram: @********
 ## Розгортання та запуск
 
 ### 1. Клонувати репозиторій
+git clone https://***********/TariffAdvisor.git
+cd TariffAdvisor
+
+### 2. Зібрати проєкт
+dotnet build
+
+### 3. Запустити застосунок
+dotnet run
+
+Або запустити готовий `.exe` з папки:
+bin\Debug\net8.0-windows\TariffAdvisor.exe
+
+---
+
+## Приклад використання
+
+1. Запустіть застосунок.
+2. Введіть свої потреби:
+   - Інтернет: **20 ГБ**
+   - Хвилини: **400**
+   - SMS: **100**
+3. Натисніть кнопку **«Підібрати тариф»**.
+4. У таблиці відобразяться всі тарифи з розрахованою вартістю.
+5. Внизу з'явиться рекомендація, наприклад:
+Рекомендація: «Стандарт» — 241.00 грн/міс.
+
+
+---
+
+## Структура проєкту
+TariffAdvisor/
+├── MainForm_2.cs # Головна форма, логіка UI та розрахунків
+├── Project_2.csproj # Файл проєкту
+├── README.md # Цей файл
+├── CONTRIBUTING.md # Інструкція для контриб'юторів
+├── CODE_OF_CONDUCT.md # Кодекс поведінки спільноти
+└── LICENSE # Ліцензія проєкту
+
+---
+
+## Як це працює
+
+Кожен тариф описано класом `Tariff` з такими полями:
+
+- `BasePrice` — абонплата
+- `IncludedGb`, `IncludedMin`, `IncludedSms` — включені ліміти
+- `OverGbPrice`, `OverMinPrice`, `OverSmsPrice` — ціни за перевищення
+
+Метод `CalculateCost` обчислює підсумкову вартість:
+cost = BasePrice
+if (gb > IncludedGb) cost += (gb - IncludedGb) * OverGbPrice
+if (minutes > IncludedMin) cost += (minutes - IncludedMin) * OverMinPrice
+if (sms > IncludedSms) cost += (sms - IncludedSms) * OverSmsPrice
+
+Після цього застосунок перебирає всі тарифи та обирає той, у якого підсумкова вартість найменша.
+
+---
+
+## Ліцензія
+
+Цей проєкт ліцензовано під MIT License — див. файл [LICENSE](LICENSE).
